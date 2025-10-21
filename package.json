@@ -1,0 +1,19 @@
+{
+  "name": "node-pokemon-api",
+  "version": "1.0.0",
+  "description": "An awesome API Rest to handle some pokemons.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AchrafJarhou/pokedex-node.git"
+  },
+  "author": "Achraf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AchrafJarhou/pokedex-node/issues"
+  },
+  "homepage": "https://github.com/AchrafJarhou/pokedex-node#readme"
+}
