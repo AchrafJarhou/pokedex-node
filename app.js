@@ -6,6 +6,10 @@ const port = 3000;
 app.get("/", (req, res) => {
   res.send("Hello again World !");
 });
+app.get("/api/pokemons", (req, res) => {
+  const count = pokemons.length;
+  res.send("There are " + count + " pokemons in the pokedex.");
+});
 app.get("/api/pokemons/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const pokemon = pokemons.find((pokemon) => pokemon.id === id);
