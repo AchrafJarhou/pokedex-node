@@ -8,14 +8,12 @@ app.get("/", (req, res) => {
 });
 app.get("/api/pokemons", (req, res) => {
   const count = pokemons.length;
-  res.send("There are " + count + " pokemons in the pokedex.");
+  res.json({ data: pokemons, count: count });
 });
 app.get("/api/pokemons/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const pokemon = pokemons.find((pokemon) => pokemon.id === id);
-  res.send(
-    "You requested the pokemon with id: " + id + " which is " + pokemon.name
-  );
+  res.json(pokemon);
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
