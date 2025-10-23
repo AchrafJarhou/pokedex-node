@@ -1,13 +1,17 @@
 const express = require("express");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
+const bodyParser = require("body-parser");
 const { success, getUniqueId } = require("./helpers");
 let pokemons = require("./mock-pokemon");
 
 const app = express();
 const port = 3000;
 
-app.use(favicon(__dirname + "/favicon.ico")).use(morgan("dev"));
+app
+  .use(favicon(__dirname + "/favicon.ico"))
+  .use(morgan("dev"))
+  .use(bodyParser.json());
 app.get("/", (req, res) => {
   res.send("Hello again World !");
 });
@@ -28,6 +32,17 @@ app.post("/api/pokemons", (req, res) => {
   pokemons.push(pokemonCreated);
   const message = `Le pokémon ${pokemonCreated.name} a bien été crée.`;
   res.json(success(message, pokemonCreated));
+});
+
+app.put("/api/pokemons/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const pokemonUpdated = { ...req.body, id: id };
+  pokemons = pokemons.map((pokemon) => {
+    return pokemon.id === id ? pokemonUpdated : pokemon;
+  });
+
+  const message = `Le pokémon ${pokemonUpdated.name} a bien été modifié.`;
+  res.json(success(message, pokemonUpdated));
 });
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
