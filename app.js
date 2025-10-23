@@ -2,9 +2,10 @@ const express = require("express");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
-const { Sequelize } = require("sequelize");
+const { Sequelize, DataTypes } = require("sequelize");
 const { success, getUniqueId } = require("./helpers");
 let pokemons = require("./mock-pokemon");
+const PokemonModel = require("./src/models/pokemon");
 
 const app = express();
 const port = 3000;
@@ -26,6 +27,10 @@ sequelize
   .catch((err) => {
     console.error("la connexion a la base de donné a echoué:", err);
   });
+const Pokemon = PokemonModel(sequelize, DataTypes);
+sequelize.sync({ force: true }).then(() => {
+  console.log("La base de donnée a été synchronisée.");
+});
 
 app
   .use(favicon(__dirname + "/favicon.ico"))
