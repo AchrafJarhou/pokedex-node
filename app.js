@@ -2,11 +2,30 @@ const express = require("express");
 const morgan = require("morgan");
 const favicon = require("serve-favicon");
 const bodyParser = require("body-parser");
+const { Sequelize } = require("sequelize");
 const { success, getUniqueId } = require("./helpers");
 let pokemons = require("./mock-pokemon");
 
 const app = express();
 const port = 3000;
+
+const sequelize = new Sequelize("pokedex", "root", "", {
+  host: "localhost",
+  dialect: "mariadb",
+  dialectOptions: {
+    timezone: "Etc/GMT-2",
+  },
+  logging: false,
+});
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("la connexion a la base de donné a bien eté etablie.");
+  })
+  .catch((err) => {
+    console.error("la connexion a la base de donné a echoué:", err);
+  });
 
 app
   .use(favicon(__dirname + "/favicon.ico"))

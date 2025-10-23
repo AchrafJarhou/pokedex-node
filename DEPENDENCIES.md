@@ -65,6 +65,67 @@ Ces packages sont uniquement nécessaires pendant le développement.
 
 ### 3. **Morgan** - `^1.10.1`
 
+### 3. **Sequelize** - `^6.x`
+
+ORM pour interagir avec la base de données (ici MariaDB) en JavaScript.
+
+```bash
+npm install sequelize
+```
+
+**Utilisation dans le projet :**
+
+- Gestion de la connexion à la base, modèles, requêtes
+- Utilisé dans : `app.js`
+- **Fonctions utilisées :**
+  - `new Sequelize(database, username, password, options)`
+  - `sequelize.authenticate()` – vérifie la connexion
+
+**Exemple d'utilisation :**
+
+```javascript
+const { Sequelize } = require("sequelize");
+const sequelize = new Sequelize("pokedex", "root", "", {
+  host: "localhost",
+  dialect: "mariadb",
+});
+
+sequelize
+  .authenticate()
+  .then(() => console.log("Connexion DB OK"))
+  .catch((err) => console.error("Erreur DB:", err));
+```
+
+---
+
+### 4. **MariaDB (driver)** - `^3.x`
+
+Driver nécessaire pour que Sequelize communique avec MariaDB.
+
+```bash
+npm install mariadb
+```
+
+> Si vous utilisez MySQL au lieu de MariaDB : `npm install mysql2` et remplacez le `dialect`.
+
+---
+
+### 5. **body-parser** - `^2.x`
+
+Middleware pour parser le JSON dans le corps des requêtes HTTP.
+
+```bash
+npm install body-parser
+```
+
+**Utilisation dans le projet :**
+
+- `app.use(bodyParser.json())` pour lire `req.body`
+
+> Astuce: avec Express 4.16+, vous pouvez utiliser l’alternative native: `app.use(express.json())`.
+
+---
+
 ```bash
 npm install morgan --save-dev
 ```
@@ -196,6 +257,18 @@ const { success } = require("./helpers");
 res.json(success("Opération réussie", { id: 1, name: "Pikachu" }));
 ```
 
+**Fonction :** `getUniqueId(pokemons)`
+
+- Génère un nouvel identifiant unique à partir des IDs existants
+- Utilisé lors de la création d’un pokémon (route POST)
+
+**Exemple :**
+
+```javascript
+const { getUniqueId } = require("./helpers");
+const id = getUniqueId(pokemons);
+```
+
 ### `mock-pokemon.js`
 
 - Contient un tableau de 12 pokémons
@@ -224,11 +297,15 @@ res.json(success("Opération réussie", { id: 1, name: "Pikachu" }));
 | ------------- | ------- | ---- | ------------------------ |
 | express       | ^4.18.2 | Prod | Framework web & API REST |
 | serve-favicon | ^2.5.1  | Prod | Servir le favicon        |
+| sequelize     | ^6.x    | Prod | ORM Base de données      |
+| mariadb       | ^3.x    | Prod | Driver MariaDB           |
+| body-parser   | ^2.x    | Prod | Parser JSON req.body     |
 | morgan        | ^1.10.1 | Dev  | Logger HTTP              |
 | nodemon       | ^3.1.10 | Dev  | Rechargement automatique |
 
 ---
 
 **Date de création :** 21 Octobre 2025  
+**Dernière mise à jour :** 23 Octobre 2025  
 **Auteur :** Achraf  
 **Version du projet :** 1.0.0
