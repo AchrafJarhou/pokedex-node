@@ -6,6 +6,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const { success, getUniqueId } = require("./helpers");
 let pokemons = require("./mock-pokemon");
 const PokemonModel = require("./src/models/pokemon");
+const pokemon = require("./src/models/pokemon");
 
 const app = express();
 const port = 3000;
@@ -30,6 +31,23 @@ sequelize
 const Pokemon = PokemonModel(sequelize, DataTypes);
 sequelize.sync({ force: true }).then(() => {
   console.log("La base de donnée a été synchronisée.");
+  pokemons.map((pokemon) => {
+    Pokemon.create({
+      name: pokemon.name,
+      hp: pokemon.hp,
+      cp: pokemon.cp,
+      picture: pokemon.picture,
+      types: pokemon.types.join(),
+    }).then((pokemon) => console.log(pokemon.toJSON()));
+  });
+  Pokemon.create({
+    name: "Bulbizarre",
+    hp: 100,
+    cp: 10,
+    picture:
+      "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
+    types: "Plante,Poison",
+  }).then((pokemon) => console.log(pokemon.toJSON()));
 });
 
 app
