@@ -15,17 +15,24 @@ const sequelize = new Sequelize("pokedex", "root", "", {
 const Pokemon = PokemonModel(sequelize, DataTypes);
 
 const initDb = () => {
-  return sequelize.sync({ force: true }).then((_) => {
-    pokemons.map((pokemon) => {
-      Pokemon.create({
-        name: pokemon.name,
-        hp: pokemon.hp,
-        cp: pokemon.cp,
-        picture: pokemon.picture,
-        types: pokemon.types,
-      }).then((pokemon) => console.log(pokemon.toJSON()));
+  return sequelize.sync().then((_) => {
+    // Initialiser seulement si la table est vide
+    Pokemon.count().then((count) => {
+      if (count === 0) {
+        pokemons.map((pokemon) => {
+          Pokemon.create({
+            name: pokemon.name,
+            hp: pokemon.hp,
+            cp: pokemon.cp,
+            picture: pokemon.picture,
+            types: pokemon.types,
+          }).then((pokemon) => console.log(pokemon.toJSON()));
+        });
+        console.log("La base de donnée a bien été initialisée !");
+      } else {
+        console.log(`La base de données contient déjà ${count} pokémons.`);
+      }
     });
-    console.log("La base de donnée a bien été initialisée !");
   });
 };
 
