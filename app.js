@@ -15,6 +15,8 @@ app
 Sequelize.initDb();
 
 // ici nos routes (point de terminaison).
+require("./src/routes/findAllPokemons")(app);
+require("./src/routes/findPokemonByPk")(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
