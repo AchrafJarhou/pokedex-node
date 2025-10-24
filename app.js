@@ -40,14 +40,6 @@ sequelize.sync({ force: true }).then(() => {
       types: pokemon.types.join(),
     }).then((pokemon) => console.log(pokemon.toJSON()));
   });
-  Pokemon.create({
-    name: "Bulbizarre",
-    hp: 100,
-    cp: 10,
-    picture:
-      "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
-    types: "Plante,Poison",
-  }).then((pokemon) => console.log(pokemon.toJSON()));
 });
 
 app
