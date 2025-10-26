@@ -24,6 +24,14 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Utilisez uniquement des nombres entiers pour les points de vie.",
           },
           notNull: { msg: "Les points de vie sont une propriété requise." },
+          min: {
+            args: [0],
+            msg: "Les points de vie doivent être supérieurs ou égaux à 0.",
+          },
+          max: {
+            args: [999],
+            msg: "Les points de vie doivent être inférieurs ou égaux à 999.",
+          },
         },
       },
       cp: {
@@ -34,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Utilisez uniquement des nombres entiers pour les points de degats.",
           },
           notNull: { msg: "les points de degatssont une propriété requise." },
+          min: {
+            args: [0],
+            msg: "Les points de degats doivent être supérieurs ou égaux à 0.",
+          },
+          max: {
+            args: [99],
+            msg: "Les points de degats doivent être inférieurs ou égaux à 99.",
+          },
         },
       },
       picture: {
