@@ -6,7 +6,7 @@ const validTypes = [
   "Normal",
   "Electrik",
   "Poison",
-  "fée",
+  "Fée",
   "Vol",
 ];
 /* L’API Rest et la Base de données : Créer un modèle Sequelize */
@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: {
+          msg: "Le nom du pokémon est déjà pris.",
+        },
         validate: {
           notEmpty: { msg: "Le nom ne peut pas être vide." },
           notNull: { msg: "Le nom est une propriété requise." },
