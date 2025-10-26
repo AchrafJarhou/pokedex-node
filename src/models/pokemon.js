@@ -1,3 +1,14 @@
+const validTypes = [
+  "Plante",
+  "Feu",
+  "Eau",
+  "Insecte",
+  "Normal",
+  "Electrik",
+  "Poison",
+  "fée",
+  "Vol",
+];
 /* L’API Rest et la Base de données : Créer un modèle Sequelize */
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
@@ -79,6 +90,13 @@ module.exports = (sequelize, DataTypes) => {
                 "Un pokémon ne peut pas avoir plus de trois types."
               );
             }
+            value.split(",").forEach((type) => {
+              if (!validTypes.includes(type)) {
+                throw new Error(
+                  `Le type ${type} n'est pas un type valide.il faut choisir parmis : ${validTypes}.`
+                );
+              }
+            });
           },
         },
       },
