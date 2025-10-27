@@ -5,10 +5,11 @@ const { Op } = require("sequelize");
 module.exports = (app) => {
   app.get("/api/pokemons", (req, res) => {
     if (req.query.name) {
+      const limit = parseInt(req.query.limit) || 5;
       const name = req.query.name;
       return Pokemon.findAndCountAll({
         where: { name: { [Op.like]: `%${name}%` } },
-        limit: 5,
+        limit: limit,
         order: [["name", "ASC"]],
       }).then(({ count, rows }) => {
         const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${count} pokémons.`;
