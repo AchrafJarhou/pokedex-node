@@ -6,12 +6,12 @@ module.exports = (app) => {
   app.get("/api/pokemons", (req, res) => {
     if (req.query.name) {
       const name = req.query.name;
-      return Pokemon.findAll({
+      return Pokemon.findAndCountAll({
         where: { name: { [Op.like]: `%${name}%` } },
         limit: 5,
-      }).then((pokemons) => {
-        const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${pokemons.length} pokémons.`;
-        res.json({ message, data: pokemons });
+      }).then(({ count, rows }) => {
+        const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${count} pokémons.`;
+        res.json({ message, data: rows });
       });
     } else {
       Pokemon.findAll()
