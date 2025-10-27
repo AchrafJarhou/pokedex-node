@@ -1,13 +1,17 @@
 const { Pokemon } = require("../db/sequelize");
+// importation des operateurs de Sequelize
+const { Op } = require("sequelize");
 
 module.exports = (app) => {
   app.get("/api/pokemons", (req, res) => {
     if (req.query.name) {
       const name = req.query.name;
-      return Pokemon.findAll({ where: { name } }).then((pokemons) => {
-        const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${pokemons.length} pokémons.`;
-        res.json({ message, data: pokemons });
-      });
+      return Pokemon.findAll({ where: { name: { [Op.eq]: name } } }).then(
+        (pokemons) => {
+          const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${pokemons.length} pokémons.`;
+          res.json({ message, data: pokemons });
+        }
+      );
     } else {
       Pokemon.findAll()
         .then((pokemons) => {
