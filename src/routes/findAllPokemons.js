@@ -9,12 +9,13 @@ module.exports = (app) => {
       return Pokemon.findAndCountAll({
         where: { name: { [Op.like]: `%${name}%` } },
         limit: 5,
+        order: [["name", "ASC"]],
       }).then(({ count, rows }) => {
         const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${count} pokémons.`;
         res.json({ message, data: rows });
       });
     } else {
-      Pokemon.findAll()
+      Pokemon.findAll({ order: ["name"] })
         .then((pokemons) => {
           const message =
             "La liste des pokémons a bien été récupérée. ya " +
