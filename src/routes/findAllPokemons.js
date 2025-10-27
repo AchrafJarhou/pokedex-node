@@ -8,6 +8,7 @@ module.exports = (app) => {
       const name = req.query.name;
       return Pokemon.findAll({
         where: { name: { [Op.like]: `%${name}%` } },
+        limit: 5,
       }).then((pokemons) => {
         const message = `La liste des pokémons avec le nom ${name} a bien été récupérée. ya ${pokemons.length} pokémons.`;
         res.json({ message, data: pokemons });
