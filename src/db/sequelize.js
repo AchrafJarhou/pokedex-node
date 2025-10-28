@@ -3,6 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const PokemonModel = require("../models/pokemon");
 const UserModel = require("../models/user");
 const pokemons = require("./mock-pokemon");
+const bcrypt = require("bcrypt");
 
 const sequelize = new Sequelize("pokedex", "root", "", {
   host: "localhost",
@@ -35,12 +36,15 @@ const initDb = () => {
         console.log(`La base de données contient déjà ${count} pokémons.`);
       }
     });
+
     User.count().then((count) => {
       if (count === 0) {
-        User.create({
-          username: "pikatchu",
-          password: "pikatchu",
-        }).then((user) => console.log(user.toJSON()));
+        bcrypt.hash("pikatchu", 10).then((hash) => {
+          User.create({
+            username: "pikatchu",
+            password: hash,
+          }).then((user) => console.log(user.toJSON()));
+        });
       }
     });
   });
